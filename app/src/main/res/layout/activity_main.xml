@@ -118,7 +118,7 @@
             android:textColor="#333333"
             android:layout_marginTop="16dp" />
 
-        <!-- ปุ่มสำหรับกลับไปยัง AddComputerActivity -->
+        <!-- Button to go back to AddComputerActivity -->
         <Button
             android:id="@+id/openAddComputerActivityButton"
             android:layout_width="wrap_content"
@@ -133,6 +133,5 @@
             android:paddingBottom="12dp"
             android:elevation="2dp"
             android:layout_gravity="center"/>
-
     </LinearLayout>
 </ScrollView>

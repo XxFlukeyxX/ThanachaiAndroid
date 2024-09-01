@@ -1,11 +1,12 @@
 package com.example.thanachaiandroid
 
 import ApiService
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +29,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class AddComputerActivity : AppCompatActivity() {
@@ -74,8 +74,9 @@ class AddComputerActivity : AppCompatActivity() {
 
         // Handle image selection
         imageView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
+            val intent = Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+            }
             startActivityForResult(intent, 1)
         }
 
@@ -162,7 +163,7 @@ class AddComputerActivity : AppCompatActivity() {
         val hardDiskSize = hardDiskSizeEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:4000/")
+            .baseUrl("http://10.0.2.2:4000/") // Update with your API base URL
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -195,8 +196,8 @@ class AddComputerActivity : AppCompatActivity() {
                         putExtra("brand_name", brandName.toString())
                         putExtra("model_name", modelName.toString())
                         putExtra("serial_number", serialNumber.toString())
-                        putExtra("stock_quantity", stockQuantity.toString().toInt())
-                        putExtra("price", price.toString().toDouble())
+                        putExtra("stock_quantity", stockQuantity.toString().toIntOrNull() ?: 0)
+                        putExtra("price", price.toString().toDoubleOrNull() ?: 0.0)
                         putExtra("cpu_speed", cpuSpeed.toString())
                         putExtra("memory_size", memorySize.toString())
                         putExtra("hard_disk_size", hardDiskSize.toString())
@@ -205,7 +206,7 @@ class AddComputerActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_OK, resultIntent)
                     finish()
                 } else {
-                    Log.e("AddComputer", "Failed to add computer: ${response.message()}")
+                    Log.e("AddComputer", "Failed to add computer: ${response.code()} ${response.message()}")
                     Toast.makeText(this@AddComputerActivity, "Failed to add computer: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }

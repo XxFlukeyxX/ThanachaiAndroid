@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,9 +28,42 @@ class MainActivity : AppCompatActivity() {
     private lateinit var computerImageView: ImageView
     private lateinit var openAddComputerActivityButton: Button
 
+    private val addComputerActivityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                data?.let {
+                    val brandName = it.getStringExtra("brand_name")
+                    val modelName = it.getStringExtra("model_name")
+                    val serialNumber = it.getStringExtra("serial_number")
+                    val stockQuantity = it.getIntExtra("stock_quantity", 0)
+                    val price = it.getDoubleExtra("price", 0.0)
+                    val cpuSpeed = it.getStringExtra("cpu_speed")
+                    val memorySize = it.getStringExtra("memory_size")
+                    val hardDiskSize = it.getStringExtra("hard_disk_size")
+                    val imageUrl = it.getStringExtra("image_url")
+
+                    // Display the received data in the UI
+                    brandNameTextView.text = "Brand: $brandName"
+                    modelNameTextView.text = "Model: $modelName"
+                    serialNumberTextView.text = "Serial Number: $serialNumber"
+                    stockQuantityTextView.text = "Stock Quantity: $stockQuantity"
+                    priceTextView.text = "Price: $price"
+                    cpuSpeedTextView.text = "CPU Speed: $cpuSpeed"
+                    memorySizeTextView.text = "Memory Size: $memorySize"
+                    hardDiskSizeTextView.text = "Hard Disk Size: $hardDiskSize"
+
+                    // Load image using Glide
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(computerImageView)
+                }
+            }
+        })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -51,39 +87,7 @@ class MainActivity : AppCompatActivity() {
         // Handle the button click to open AddComputerActivity
         openAddComputerActivityButton.setOnClickListener {
             val intent = Intent(this, AddComputerActivity::class.java)
-            startActivityForResult(intent, 1)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-            // Get the data returned from AddComputerActivity
-            val brandName = data.getStringExtra("brand_name")
-            val modelName = data.getStringExtra("model_name")
-            val serialNumber = data.getStringExtra("serial_number")
-            val stockQuantity = data.getIntExtra("stock_quantity", 0)
-            val price = data.getDoubleExtra("price", 0.0)
-            val cpuSpeed = data.getStringExtra("cpu_speed")
-            val memorySize = data.getStringExtra("memory_size")
-            val hardDiskSize = data.getStringExtra("hard_disk_size")
-            val imageUrl = data.getStringExtra("image_url")
-
-            // Display the received data in the UI
-            brandNameTextView.text = "Brand: $brandName"
-            modelNameTextView.text = "Model: $modelName"
-            serialNumberTextView.text = "Serial Number: $serialNumber"
-            stockQuantityTextView.text = "Stock Quantity: $stockQuantity"
-            priceTextView.text = "Price: $price"
-            cpuSpeedTextView.text = "CPU Speed: $cpuSpeed"
-            memorySizeTextView.text = "Memory Size: $memorySize"
-            hardDiskSizeTextView.text = "Hard Disk Size: $hardDiskSize"
-
-            // Load image using Glide
-            Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.placeholder_image)
-                .into(computerImageView)
+            addComputerActivityResultLauncher.launch(intent)
         }
     }
 }

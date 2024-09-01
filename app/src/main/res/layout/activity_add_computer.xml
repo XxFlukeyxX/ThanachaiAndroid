@@ -36,7 +36,7 @@
                 android:hint="Brand Name"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -48,7 +48,7 @@
                 android:hint="Model Name"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -60,7 +60,7 @@
                 android:hint="Serial Number"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -72,7 +72,7 @@
                 android:hint="Stock Quantity"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -84,7 +84,7 @@
                 android:hint="Price"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -96,7 +96,7 @@
                 android:hint="CPU Speed"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -108,7 +108,7 @@
                 android:hint="Memory Size"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="8dp"
                 android:elevation="2dp"/>
@@ -120,7 +120,7 @@
                 android:hint="Hard Disk Size"
                 android:backgroundTint="#BBDEFB"
                 android:textColor="#0D47A1"
-                android:hintTextColor="#90CAF9"
+                android:textColorHint="#90CAF9"
                 android:padding="12dp"
                 android:layout_marginBottom="16dp"
                 android:elevation="2dp"/>
