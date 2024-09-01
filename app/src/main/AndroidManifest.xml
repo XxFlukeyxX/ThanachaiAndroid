@@ -5,10 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- สิทธิ์สำหรับการอ่านไฟล์ภายนอก -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:targetApi="32"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:targetApi="35"/>
 
     <!-- สิทธิ์สำหรับการอ่านสื่อภาพใน Android 13 ขึ้นไป -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:targetApi="33" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:targetApi="35" />
 
     <application
         android:allowBackup="true"
@@ -22,9 +22,9 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
 
-        <!-- กำหนดให้ AddComputerActivity เป็นหน้าแรก -->
+        <!-- MainActivity -->
         <activity
-            android:name=".AddComputerActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity -->
+        <!-- AddComputerActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".AddComputerActivity"
             android:exported="true">
-            <!-- คุณสามารถเพิ่ม Intent Filters หรือ Configurations เพิ่มเติมสำหรับ MainActivity ได้ที่นี่ถ้าจำเป็น -->
+            <!-- คุณสามารถเพิ่ม Intent Filters หรือ Configurations เพิ่มเติมสำหรับ AddComputerActivity ได้ที่นี่ถ้าจำเป็น -->
         </activity>
 
     </application>

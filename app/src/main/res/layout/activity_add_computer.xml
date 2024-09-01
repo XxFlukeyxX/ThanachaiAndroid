@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#E1F5FE"> <!-- พื้นหลังสีฟ้าอ่อน -->
+    android:background="#E1F5FE">
 
     <ScrollView
         android:layout_width="0dp"
@@ -130,22 +130,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Computer"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#1976D2"
-                android:layout_marginTop="16dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:elevation="4dp"
-                android:layout_gravity="center"/>
-
-            <!-- ปุ่มสำหรับเปิด MainActivity -->
-            <Button
-                android:id="@+id/openMainActivityButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go to Detail"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#1976D2"
                 android:layout_marginTop="16dp"

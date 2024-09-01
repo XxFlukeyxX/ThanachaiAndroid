@@ -17,7 +17,6 @@
         android:elevation="4dp"
         android:clipToOutline="true">
 
-        <!-- ImageView for Computer Image -->
         <ImageView
             android:id="@+id/computerImageView"
             android:layout_width="match_parent"
@@ -28,7 +27,6 @@
             android:layout_marginBottom="16dp"
             android:padding="8dp" />
 
-        <!-- TextView for Brand Name -->
         <TextView
             android:id="@+id/brandNameTextView"
             android:layout_width="wrap_content"
@@ -40,7 +38,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp" />
 
-        <!-- TextView for Model Name -->
         <TextView
             android:id="@+id/modelNameTextView"
             android:layout_width="wrap_content"
@@ -50,7 +47,6 @@
             android:textColor="#555555"
             android:layout_marginTop="8dp" />
 
-        <!-- TextView for Serial Number -->
         <TextView
             android:id="@+id/serialNumberTextView"
             android:layout_width="wrap_content"
@@ -60,7 +56,6 @@
             android:textColor="#555555"
             android:layout_marginTop="8dp" />
 
-        <!-- TextView for Stock Quantity -->
         <TextView
             android:id="@+id/stockQuantityTextView"
             android:layout_width="wrap_content"
@@ -70,7 +65,6 @@
             android:textColor="#555555"
             android:layout_marginTop="8dp" />
 
-        <!-- Divider Line -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -78,7 +72,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- TextView for CPU Speed -->
         <TextView
             android:id="@+id/cpuSpeedTextView"
             android:layout_width="wrap_content"
@@ -87,7 +80,6 @@
             android:textSize="16sp"
             android:textColor="#555555" />
 
-        <!-- TextView for Memory Size -->
         <TextView
             android:id="@+id/memorySizeTextView"
             android:layout_width="wrap_content"
@@ -97,7 +89,6 @@
             android:textColor="#555555"
             android:layout_marginTop="8dp" />
 
-        <!-- TextView for Hard Disk Size -->
         <TextView
             android:id="@+id/hardDiskSizeTextView"
             android:layout_width="wrap_content"
@@ -107,7 +98,6 @@
             android:textColor="#555555"
             android:layout_marginTop="8dp" />
 
-        <!-- TextView for Price -->
         <TextView
             android:id="@+id/priceTextView"
             android:layout_width="wrap_content"
@@ -118,7 +108,6 @@
             android:textColor="#333333"
             android:layout_marginTop="16dp" />
 
-        <!-- Button to go back to AddComputerActivity -->
         <Button
             android:id="@+id/openAddComputerActivityButton"
             android:layout_width="wrap_content"

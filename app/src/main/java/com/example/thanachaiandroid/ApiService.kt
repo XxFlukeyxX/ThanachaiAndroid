@@ -1,4 +1,5 @@
-import com.example.thanachaiandroid.Computer
+package com.example.thanachaiandroid
+
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

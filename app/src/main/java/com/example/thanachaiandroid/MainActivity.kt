@@ -7,8 +7,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,39 +26,38 @@ class MainActivity : AppCompatActivity() {
     private lateinit var computerImageView: ImageView
     private lateinit var openAddComputerActivityButton: Button
 
-    private val addComputerActivityResultLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                data?.let {
-                    val brandName = it.getStringExtra("brand_name")
-                    val modelName = it.getStringExtra("model_name")
-                    val serialNumber = it.getStringExtra("serial_number")
-                    val stockQuantity = it.getIntExtra("stock_quantity", 0)
-                    val price = it.getDoubleExtra("price", 0.0)
-                    val cpuSpeed = it.getStringExtra("cpu_speed")
-                    val memorySize = it.getStringExtra("memory_size")
-                    val hardDiskSize = it.getStringExtra("hard_disk_size")
-                    val imageUrl = it.getStringExtra("image_url")
+    private val addComputerActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            data?.let {
+                val brandName = it.getStringExtra("brand_name") ?: "N/A"
+                val modelName = it.getStringExtra("model_name") ?: "N/A"
+                val serialNumber = it.getStringExtra("serial_number") ?: "N/A"
+                val stockQuantity = it.getIntExtra("stock_quantity", 0)
+                val price = it.getDoubleExtra("price", 0.0)
+                val cpuSpeed = it.getStringExtra("cpu_speed") ?: "N/A"
+                val memorySize = it.getStringExtra("memory_size") ?: "N/A"
+                val hardDiskSize = it.getStringExtra("hard_disk_size") ?: "N/A"
+                val imageUrl = it.getStringExtra("image_url") ?: ""
 
-                    // Display the received data in the UI
-                    brandNameTextView.text = "Brand: $brandName"
-                    modelNameTextView.text = "Model: $modelName"
-                    serialNumberTextView.text = "Serial Number: $serialNumber"
-                    stockQuantityTextView.text = "Stock Quantity: $stockQuantity"
-                    priceTextView.text = "Price: $price"
-                    cpuSpeedTextView.text = "CPU Speed: $cpuSpeed"
-                    memorySizeTextView.text = "Memory Size: $memorySize"
-                    hardDiskSizeTextView.text = "Hard Disk Size: $hardDiskSize"
+                brandNameTextView.text = "Brand: $brandName"
+                modelNameTextView.text = "Model: $modelName"
+                serialNumberTextView.text = "Serial Number: $serialNumber"
+                stockQuantityTextView.text = "Stock Quantity: $stockQuantity"
+                priceTextView.text = "Price: $price"
+                cpuSpeedTextView.text = "CPU Speed: $cpuSpeed"
+                memorySizeTextView.text = "Memory Size: $memorySize"
+                hardDiskSizeTextView.text = "Hard Disk Size: $hardDiskSize"
 
-                    // Load image using Glide
-                    Glide.with(this)
-                        .load(imageUrl)
-                        .placeholder(R.drawable.placeholder_image)
-                        .into(computerImageView)
-                }
+                Glide.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.placeholder_image)
+                    .into(computerImageView)
             }
-        })
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +69,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Initialize UI elements
         brandNameTextView = findViewById(R.id.brandNameTextView)
         modelNameTextView = findViewById(R.id.modelNameTextView)
         serialNumberTextView = findViewById(R.id.serialNumberTextView)
@@ -84,7 +80,6 @@ class MainActivity : AppCompatActivity() {
         computerImageView = findViewById(R.id.computerImageView)
         openAddComputerActivityButton = findViewById(R.id.openAddComputerActivityButton)
 
-        // Handle the button click to open AddComputerActivity
         openAddComputerActivityButton.setOnClickListener {
             val intent = Intent(this, AddComputerActivity::class.java)
             addComputerActivityResultLauncher.launch(intent)

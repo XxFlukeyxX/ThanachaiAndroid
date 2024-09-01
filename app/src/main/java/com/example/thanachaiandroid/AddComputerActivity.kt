@@ -1,9 +1,8 @@
 package com.example.thanachaiandroid
 
-import ApiService
+import com.example.thanachaiandroid.ApiService
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,14 +42,12 @@ class AddComputerActivity : AppCompatActivity() {
     private lateinit var hardDiskSizeEditText: EditText
     private lateinit var imageView: ImageView
     private lateinit var addButton: Button
-    private lateinit var openMainActivityButton: Button
     private var imageFile: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_computer)
 
-        // Initialize UI components
         brandNameEditText = findViewById(R.id.brandNameEditText)
         modelNameEditText = findViewById(R.id.modelNameEditText)
         serialNumberEditText = findViewById(R.id.serialNumberEditText)
@@ -61,18 +58,9 @@ class AddComputerActivity : AppCompatActivity() {
         hardDiskSizeEditText = findViewById(R.id.hardDiskSizeEditText)
         imageView = findViewById(R.id.imageView)
         addButton = findViewById(R.id.addButton)
-        openMainActivityButton = findViewById(R.id.openMainActivityButton)
 
-        // Check for necessary permissions
         checkStoragePermission()
 
-        // Handle button click to open MainActivity
-        openMainActivityButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Handle image selection
         imageView.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK).apply {
                 type = "image/*"
@@ -80,7 +68,6 @@ class AddComputerActivity : AppCompatActivity() {
             startActivityForResult(intent, 1)
         }
 
-        // Handle add computer button click
         addButton.setOnClickListener {
             addComputer()
         }
@@ -121,18 +108,17 @@ class AddComputerActivity : AppCompatActivity() {
             val selectedImageUri = data.data
             imageView.setImageURI(selectedImageUri)
 
-            // Convert Uri to Path and log it
             val imagePath = getRealPathFromURI(selectedImageUri!!)
             if (imagePath != null) {
                 Log.d("ImagePath", "Image Path: $imagePath")
                 imageFile = File(imagePath)
             } else {
                 Log.e("ImagePath", "Failed to get image path")
+                Toast.makeText(this, "Failed to get image path", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Function to convert Uri to real file path
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
@@ -147,23 +133,26 @@ class AddComputerActivity : AppCompatActivity() {
     }
 
     private fun addComputer() {
-        // Validate the image file before proceeding
-        if (imageFile == null || !imageFile!!.exists()) {
-            Toast.makeText(this, "Please select a valid image.", Toast.LENGTH_SHORT).show()
-            return
-        }
+        val brandNameString = brandNameEditText.text.toString()
+        val modelNameString = modelNameEditText.text.toString()
+        val serialNumberString = serialNumberEditText.text.toString()
+        val stockQuantityString = stockQuantityEditText.text.toString()
+        val priceString = priceEditText.text.toString()
+        val cpuSpeedString = cpuSpeedEditText.text.toString()
+        val memorySizeString = memorySizeEditText.text.toString()
+        val hardDiskSizeString = hardDiskSizeEditText.text.toString()
 
-        val brandName = brandNameEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val modelName = modelNameEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val serialNumber = serialNumberEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val stockQuantity = stockQuantityEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val price = priceEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val cpuSpeed = cpuSpeedEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val memorySize = memorySizeEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        val hardDiskSize = hardDiskSizeEditText.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val brandName = brandNameString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val modelName = modelNameString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val serialNumber = serialNumberString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val stockQuantity = stockQuantityString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val price = priceString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val cpuSpeed = cpuSpeedString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val memorySize = memorySizeString.toRequestBody("text/plain".toMediaTypeOrNull())
+        val hardDiskSize = hardDiskSizeString.toRequestBody("text/plain".toMediaTypeOrNull())
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:4000/") // Update with your API base URL
+            .baseUrl("http://192.168.1.70:4000/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -172,7 +161,6 @@ class AddComputerActivity : AppCompatActivity() {
 
         val service = retrofit.create(ApiService::class.java)
 
-        // Prepare the image part
         val imagePart = imageFile?.let {
             val requestFile = it.asRequestBody("image/*".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("image", it.name, requestFile)
@@ -191,17 +179,16 @@ class AddComputerActivity : AppCompatActivity() {
         ).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    // Send data back to MainActivity
                     val resultIntent = Intent().apply {
-                        putExtra("brand_name", brandName.toString())
-                        putExtra("model_name", modelName.toString())
-                        putExtra("serial_number", serialNumber.toString())
-                        putExtra("stock_quantity", stockQuantity.toString().toIntOrNull() ?: 0)
-                        putExtra("price", price.toString().toDoubleOrNull() ?: 0.0)
-                        putExtra("cpu_speed", cpuSpeed.toString())
-                        putExtra("memory_size", memorySize.toString())
-                        putExtra("hard_disk_size", hardDiskSize.toString())
-                        putExtra("image_url", imageFile?.absolutePath)
+                        putExtra("brand_name", brandNameString)
+                        putExtra("model_name", modelNameString)
+                        putExtra("serial_number", serialNumberString)
+                        putExtra("stock_quantity", stockQuantityString.toIntOrNull() ?: 0)
+                        putExtra("price", priceString.toDoubleOrNull() ?: 0.0)
+                        putExtra("cpu_speed", cpuSpeedString)
+                        putExtra("memory_size", memorySizeString)
+                        putExtra("hard_disk_size", hardDiskSizeString)
+                        putExtra("image_url", imageFile?.absolutePath ?: "")
                     }
                     setResult(Activity.RESULT_OK, resultIntent)
                     finish()
