@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#DDDDDD"/> <!-- สีพื้นหลังของ Placeholder -->
+    <corners android:radius="8dp"/> <!-- มุมโค้ง -->
+    <size android:width="200dp" android:height="200dp"/> <!-- ขนาดของ Placeholder -->
+    <stroke android:width="2dp" android:color="#CCCCCC"/> <!-- เส้นขอบ -->
+
+    <!-- เพิ่มไอคอนหรือรูปภาพเล็กๆ ที่อยู่ตรงกลาง (ถ้าต้องการ) -->
+    <padding android:left="8dp" android:right="8dp" android:top="8dp" android:bottom="8dp"/>
+    <size android:width="200dp" android:height="200dp"/>
+</shape>
